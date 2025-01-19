@@ -1,33 +1,88 @@
-// Mot de passe pour accéder au site
-const PASSWORD = "1234";
+// Stockage des utilisateurs
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUser = null;
+
+// Fonction d'inscription
+function signup() {
+    const username = document.getElementById("signup-username").value;
+    const password = document.getElementById("signup-password").value;
+
+    if (!username || !password) {
+        document.getElementById("signup-error").textContent = "Veuillez remplir tous les champs.";
+        return;
+    }
+
+    if (users[username]) {
+        document.getElementById("signup-error").textContent = "Nom d'utilisateur déjà pris.";
+        return;
+    }
+
+    users[username] = { password, collection: [] };
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Inscription réussie !");
+    showLogin();
+}
 
 // Fonction de connexion
 function login() {
-    const inputPassword = document.getElementById("password").value;
-    if (inputPassword === PASSWORD) {
-        document.getElementById("login-screen").style.display = "none";
-        document.getElementById("main-screen").style.display = "block";
-        startScanner();
-    } else {
-        document.getElementById("login-error").textContent = "Mot de passe incorrect.";
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+
+    if (!users[username] || users[username].password !== password) {
+        document.getElementById("login-error").textContent = "Nom d'utilisateur ou mot de passe incorrect.";
+        return;
     }
+
+    currentUser = username;
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("main-screen").style.display = "block";
+    document.getElementById("user-name").textContent = currentUser;
+    loadCollection();
+    startScanner();
 }
 
-// Scanner de QR Code
+// Fonction de déconnexion
+function logout() {
+    currentUser = null;
+    document.getElementById("main-screen").style.display = "none";
+    document.getElementById("login-screen").style.display = "block";
+}
+
+// Charger la collection de l'utilisateur connecté
+function loadCollection() {
+    const list = document.getElementById("scanned-items");
+    list.innerHTML = ""; // Vide la liste
+    const collection = users[currentUser]?.collection || [];
+    collection.forEach(item => {
+        const listItem = document.createElement("li");
+        listItem.textContent = item;
+        list.appendChild(listItem);
+    });
+}
+
+// Ajouter un objet scanné
+function addScannedItem(data) {
+    const collection = users[currentUser]?.collection || [];
+    collection.push(data);
+    users[currentUser].collection = collection;
+    localStorage.setItem("users", JSON.stringify(users));
+    loadCollection();
+}
+
+// Scanner via caméra
 let scanner;
 
 function startScanner() {
     const video = document.getElementById("camera");
 
-    // Vérifie si la caméra est disponible
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
             scanner = stream;
 
-            // Détection simple (simulation de QR code)
+            // Détection (simulation)
             video.addEventListener("click", () => {
-                const fakeData = "Objet-" + Math.floor(Math.random() * 100); // Simulation de données scannées
+                const fakeData = "Objet-" + Math.floor(Math.random() * 100);
                 addScannedItem(fakeData);
             });
         })
@@ -44,10 +99,12 @@ function stopScanner() {
     }
 }
 
-// Ajouter un objet scanné à la liste
-function addScannedItem(data) {
-    const list = document.getElementById("scanned-items");
-    const listItem = document.createElement("li");
-    listItem.textContent = data;
-    list.appendChild(listItem);
+// Scanner depuis une image
+function handleImage() {
+    const input = document.getElementById("image-input");
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fakeData = "Objet depuis image : " + file.name;
+        addScannedItem(fakeData);
+    }
 }
