@@ -15,10 +15,34 @@ input, button {
     padding: 10px;
     margin: 10px;
     font-size: 16px;
+    width: 90%;
+    max-width: 300px;
 }
 
-#camera {
-    width: 80%;
+.scanner-section {
+    margin-top: 20px;
+}
+
+video, input[type="file"] {
+    display: block;
+    margin: 0 auto;
+    max-width: 90%;
     height: auto;
-    margin: 20px 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+    background-color: #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
 }
