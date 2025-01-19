@@ -108,3 +108,5 @@ function handleImage() {
         addScannedItem(fakeData);
     }
 }
+//Work
+
