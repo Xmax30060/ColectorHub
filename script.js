@@ -1,6 +1,6 @@
 // Stockage des utilisateurs
-let users = JSON.parse(localStorage.getItem("users")) || {};
-let currentUser = null;
+let USERS_STORAGE = JSON.parse(localStorage.getItem("users")) || {};
+let activeUser = null;
 
 // Fonction d'inscription
 function signup() {
@@ -12,13 +12,13 @@ function signup() {
         return;
     }
 
-    if (users[username]) {
+    if (USERS_STORAGE[username]) {
         document.getElementById("signup-error").textContent = "Nom d'utilisateur déjà pris.";
         return;
     }
 
-    users[username] = { password, collection: [] };
-    localStorage.setItem("users", JSON.stringify(users));
+    USERS_STORAGE[username] = { password, collection: [] };
+    localStorage.setItem("users", JSON.stringify(USERS_STORAGE));
     alert("Inscription réussie !");
     showLogin();
 }
@@ -28,22 +28,22 @@ function login() {
     const username = document.getElementById("login-username").value;
     const password = document.getElementById("login-password").value;
 
-    if (!users[username] || users[username].password !== password) {
+    if (!USERS_STORAGE[username] || USERS_STORAGE[username].password !== password) {
         document.getElementById("login-error").textContent = "Nom d'utilisateur ou mot de passe incorrect.";
         return;
     }
 
-    currentUser = username;
+    activeUser = username;
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("main-screen").style.display = "block";
-    document.getElementById("user-name").textContent = currentUser;
+    document.getElementById("user-name").textContent = activeUser;
     loadCollection();
     startScanner();
 }
 
 // Fonction de déconnexion
 function logout() {
-    currentUser = null;
+    activeUser = null;
     document.getElementById("main-screen").style.display = "none";
     document.getElementById("login-screen").style.display = "block";
 }
@@ -52,7 +52,7 @@ function logout() {
 function loadCollection() {
     const list = document.getElementById("scanned-items");
     list.innerHTML = ""; // Vide la liste
-    const collection = users[currentUser]?.collection || [];
+    const collection = USERS_STORAGE[activeUser]?.collection || [];
     collection.forEach(item => {
         const listItem = document.createElement("li");
         listItem.textContent = item;
@@ -62,15 +62,15 @@ function loadCollection() {
 
 // Ajouter un objet scanné
 function addScannedItem(data) {
-    const collection = users[currentUser]?.collection || [];
+    const collection = USERS_STORAGE[activeUser]?.collection || [];
     collection.push(data);
-    users[currentUser].collection = collection;
-    localStorage.setItem("users", JSON.stringify(users));
+    USERS_STORAGE[activeUser].collection = collection;
+    localStorage.setItem("users", JSON.stringify(USERS_STORAGE));
     loadCollection();
 }
 
 // Scanner via caméra
-let scanner;
+let activeScanner = null;
 
 function startScanner() {
     const video = document.getElementById("camera");
@@ -78,7 +78,7 @@ function startScanner() {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
-            scanner = stream;
+            activeScanner = stream;
 
             // Détection (simulation)
             video.addEventListener("click", () => {
@@ -93,8 +93,8 @@ function startScanner() {
 
 // Arrêter le scanner
 function stopScanner() {
-    if (scanner) {
-        const tracks = scanner.getTracks();
+    if (activeScanner) {
+        const tracks = activeScanner.getTracks();
         tracks.forEach(track => track.stop());
     }
 }
@@ -108,5 +108,3 @@ function handleImage() {
         addScannedItem(fakeData);
     }
 }
-//Work
-
