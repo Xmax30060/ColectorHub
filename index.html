@@ -5,43 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection d'Objets</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js?v=1.0"></script>
-
 </head>
 <body>
-    <!-- Page d'inscription -->
-    <div id="signup-screen">
-        <h1>Inscription</h1>
-        <input type="text" id="signup-username" placeholder="Nom d'utilisateur">
-        <input type="password" id="signup-password" placeholder="Mot de passe">
-        <button onclick="signup()">S'inscrire</button>
-        <p id="signup-error" class="error"></p>
-        <p>Déjà un compte ? <a href="#" onclick="showLogin()">Connectez-vous ici</a>.</p>
-    </div>
-
-    <!-- Page de connexion -->
-    <div id="login-screen" style="display: none;">
-        <h1>Connexion</h1>
-        <input type="text" id="login-username" placeholder="Nom d'utilisateur">
-        <input type="password" id="login-password" placeholder="Mot de passe">
-        <button onclick="login()">Se connecter</button>
-        <p id="login-error" class="error"></p>
-    </div>
-
-    <!-- Page principale -->
-    <div id="main-screen" style="display: none;">
-        <h1>Bienvenue, <span id="user-name"></span> !</h1>
-        <div class="scanner-section">
-            <video id="camera" autoplay></video>
-            <button onclick="stopScanner()">Arrêter le scanner</button>
-            <input type="file" id="image-input" accept="image/*" onchange="handleImage()" />
+    <div id="app">
+        <!-- Écran d'inscription -->
+        <div id="signup-screen" class="screen">
+            <h1>Inscription</h1>
+            <input type="text" id="signup-username" placeholder="Nom d'utilisateur">
+            <input type="password" id="signup-password" placeholder="Mot de passe">
+            <button class="btn" onclick="signup()">S'inscrire</button>
+            <p id="signup-error" class="error"></p>
+            <p>Déjà un compte ? <a href="#" onclick="showLogin()">Connectez-vous ici</a>.</p>
         </div>
-        <h2>Objets scannés :</h2>
-        <ul id="scanned-items"></ul>
-        <button onclick="logout()">Se déconnecter</button>
-    </div>
 
-    
+        <!-- Écran de connexion -->
+        <div id="login-screen" class="screen" style="display: none;">
+            <h1>Connexion</h1>
+            <input type="text" id="login-username" placeholder="Nom d'utilisateur">
+            <input type="password" id="login-password" placeholder="Mot de passe">
+            <button class="btn" onclick="login()">Se connecter</button>
+            <p id="login-error" class="error"></p>
+        </div>
+
+        <!-- Écran principal -->
+        <div id="main-screen" class="screen" style="display: none;">
+            <h1>Bienvenue, <span id="user-name"></span> !</h1>
+            <div class="scanner-section">
+                <video id="camera" autoplay></video>
+                <button class="btn" onclick="stopScanner()">Arrêter le scanner</button>
+                <input type="file" id="image-input" accept="image/*" onchange="handleImage()" />
+            </div>
+            <h2>Objets scannés :</h2>
+            <ul id="scanned-items"></ul>
+            <button class="btn btn-logout" onclick="logout()">Se déconnecter</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
-
