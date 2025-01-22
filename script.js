@@ -1,10 +1,7 @@
-// script.js
 (function () {
-    // Stockage des utilisateurs
     let USERS_STORAGE = JSON.parse(localStorage.getItem("users")) || {};
     let activeUser = null;
 
-    // Fonction d'inscription
     function signup() {
         const username = document.getElementById("signup-username").value;
         const password = document.getElementById("signup-password").value;
@@ -25,8 +22,7 @@
         showLogin();
     }
 
-    // Fonction de connexion
-    function login() {        
+    function login() {
         const username = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
 
@@ -39,17 +35,14 @@
         document.getElementById("user-name").textContent = activeUser;
         showMainScreen();
         loadCollection();
-        startScanner();
     }
 
-    // Fonction de déconnexion
     function logout() {
         activeUser = null;
         stopScanner();
         showLogin();
     }
 
-    // Charger la collection de l'utilisateur
     function loadCollection() {
         const list = document.getElementById("scanned-items");
         list.innerHTML = "";
@@ -61,7 +54,6 @@
         });
     }
 
-    // Ajouter un objet scanné
     function addScannedItem(data) {
         const collection = USERS_STORAGE[activeUser]?.collection || [];
         collection.push(data);
@@ -70,7 +62,6 @@
         loadCollection();
     }
 
-    // Scanner via caméra
     let activeScanner = null;
 
     function startScanner() {
@@ -81,7 +72,6 @@
                 video.srcObject = stream;
                 activeScanner = stream;
 
-                // Détection (simulation)
                 video.addEventListener("click", () => {
                     const fakeData = "Objet-" + Math.floor(Math.random() * 100);
                     addScannedItem(fakeData);
@@ -96,17 +86,30 @@
         }
     }
 
-    // Scanner depuis une image
     function handleImage() {
         const input = document.getElementById("image-input");
+        const previewsContainer = document.getElementById("image-previews");
+
         if (input.files && input.files[0]) {
             const file = input.files[0];
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imagePreview = document.createElement("img");
+                imagePreview.src = e.target.result;
+                imagePreview.alt = file.name;
+                imagePreview.className = "preview-image";
+
+                previewsContainer.appendChild(imagePreview);
+            };
+
+            reader.readAsDataURL(file);
+
             const fakeData = "Objet depuis image : " + file.name;
             addScannedItem(fakeData);
         }
     }
 
-    // Affichage des écrans
     function showSignup() {
         document.getElementById("signup-screen").style.display = "block";
         document.getElementById("login-screen").style.display = "none";
@@ -125,7 +128,6 @@
         document.getElementById("main-screen").style.display = "block";
     }
 
-    // Expose les fonctions globalement
     window.signup = signup;
     window.login = login;
     window.logout = logout;
