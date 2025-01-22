@@ -131,4 +131,5 @@
     window.logout = logout;
     window.handleImage = handleImage;
     window.stopScanner = stopScanner;
+    window.showLogin = showLogin;
 })();
