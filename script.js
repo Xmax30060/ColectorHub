@@ -117,7 +117,7 @@
             alert("Aucun utilisateur n'est connecté !");
         }
     }
-
+    clearUserStorage();
     window.signup = signup;
     window.login = login;
     window.logout = logout;
