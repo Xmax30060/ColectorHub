@@ -106,6 +106,17 @@
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("main-screen").style.display = "block";
     }
+    function clearUserStorage() {
+        if (activeUser) {
+            // Vérifier si l'utilisateur est connecté
+            USERS_STORAGE[activeUser].collection = []; // Réinitialiser la collection
+            localStorage.setItem("users", JSON.stringify(USERS_STORAGE)); // Mettre à jour le stockage local
+            loadCollection(); // Recharger l'affichage de la collection
+            alert("La collection de l'utilisateur a été vidée !");
+        } else {
+            alert("Aucun utilisateur n'est connecté !");
+        }
+    }
 
     window.signup = signup;
     window.login = login;
