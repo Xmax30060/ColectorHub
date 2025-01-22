@@ -27,6 +27,7 @@
 
     // Fonction de connexion
     function login() {
+        showLogin();
         const username = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
 
