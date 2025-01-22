@@ -113,3 +113,4 @@
     window.handleImage = handleImage;    
     window.showLogin = showLogin;
 })();
+//Work
