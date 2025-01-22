@@ -1,5 +1,3 @@
-/* styles.css */
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -44,28 +42,36 @@ button {
     margin-top: 10px;
 }
 
-    .btn:hover {
-        background-color: #0056b3;
-    }
+.btn:hover {
+    background-color: #0056b3;
+}
 
 .btn-logout {
     background-color: #dc3545;
 }
 
-    .btn-logout:hover {
-        background-color: #a71d2a;
-    }
+.btn-logout:hover {
+    background-color: #a71d2a;
+}
 
 .error {
     color: red;
     font-size: 14px;
 }
 
-.scanner-section {
+.image-previews {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.preview-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 video {
