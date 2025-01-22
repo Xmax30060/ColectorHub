@@ -62,29 +62,8 @@
         loadCollection();
     }
 
-    let activeScanner = null;
+    let activeScanner = null;    
 
-    function startScanner() {
-        const video = document.getElementById("camera");
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-                activeScanner = stream;
-
-                video.addEventListener("click", () => {
-                    const fakeData = "Objet-" + Math.floor(Math.random() * 100);
-                    addScannedItem(fakeData);
-                });
-            })
-            .catch(() => alert("Erreur : Impossible d'accéder à la caméra."));
-    }
-
-    function stopScanner() {
-        if (activeScanner) {
-            activeScanner.getTracks().forEach(track => track.stop());
-        }
-    }
 
     function handleImage() {
         const input = document.getElementById("image-input");
@@ -131,7 +110,6 @@
     window.signup = signup;
     window.login = login;
     window.logout = logout;
-    window.handleImage = handleImage;
-    window.stopScanner = stopScanner;
+    window.handleImage = handleImage;    
     window.showLogin = showLogin;
 })();
