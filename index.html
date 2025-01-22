@@ -30,12 +30,7 @@
 
         <!-- Écran principal -->
         <div id="main-screen" class="screen" style="display: none;">
-            <h1>Bienvenue, <span id="user-name"></span> !</h1>
-            <div class="scanner-section">
-                <video id="camera" autoplay></video>
-                <button class="btn" onclick="stopScanner()">Arrêter le scanner</button>
-                <input type="file" id="image-input" accept="image/*" onchange="handleImage()" />
-            </div>
+            <h1>Bienvenue, <span id="user-name"></span> !</h1>            
             <h2>Objets scannés :</h2>
             <ul id="scanned-items"></ul>
             <button class="btn btn-logout" onclick="logout()">Se déconnecter</button>
